@@ -9,7 +9,7 @@ utils = MysqlUserUtil(host=HOST,
 
 def test_registry():
     res = utils.registry('19850160511',
-                   'liqy',
+                   'guest',
                    'test12345',
                    role='2',
                    email='smart-stock@163.com')
