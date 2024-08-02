@@ -1,0 +1,4 @@
+
+[submodule "3rdpart/neuralforecast"]
+	path = 3rdpart/neuralforecast
+	url = https://github.com/Nixtla/neuralforecast.git

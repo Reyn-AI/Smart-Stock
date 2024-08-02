@@ -1,0 +1,4 @@
+ARG FROM_IMAGE_NAME=mysql:latest
+FROM FROM_IMAGE_NAME
+
+

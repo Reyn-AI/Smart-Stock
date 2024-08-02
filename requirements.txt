@@ -1,0 +1,21 @@
+openpyxl
+tushare
+backtrader[plotting]
+pandas==1.5.3
+pymysql
+cryptography
+scipy==1.7.3
+mplfinance
+akshare 
+fasterapi
+scikit-learn
+nest_asyncio
+pymongo
+holidays
+baostock 
+easyquotation
+alphalens
+qstock
+pywencai
+# uvloop #nest_asyncio不支持
+#TA-Lib
