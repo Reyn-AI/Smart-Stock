@@ -126,15 +126,15 @@ class BaseExecutor(metaclass=ABCMeta):
         all_res = {}
         async_analyzer_func = [partial(analyzer_cls.analysis, infos=infos) for analyzer_cls in analyzer]
         try:
-            # for cls in analyzer:
-            #     res = cls.analysis(infos=infos)
-            #     all_res.update(res)
-            import nest_asyncio             
-            nest_asyncio.apply()
-            loop = asyncio.get_event_loop()
-            res = loop.run_until_complete(asyncio.wait([x() for x in async_analyzer_func]))
-            for r in list(res[0]):
-                all_res.update(r.result())
+            for cls in analyzer:
+                res = cls.analysis(infos=infos)
+                all_res.update(res)
+            # import nest_asyncio             
+            # nest_asyncio.apply()
+            # loop = asyncio.get_event_loop()
+            # res = loop.run_until_complete(asyncio.wait([x() for x in async_analyzer_func]))
+            # for r in list(res[0]):
+            #     all_res.update(r.result())
             return all_res
         except Exception as e:
             self.logger.error(str(e))

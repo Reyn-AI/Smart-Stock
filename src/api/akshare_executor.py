@@ -1,10 +1,12 @@
 from typing import List, Dict
-import akshare as ak
+try:
+    import akshare as ak
+except Exception as e:
+    pass
 from src.api.base import BaseExecutor
 from src.utils.common import *
 from src.utils.parallel_util import *
 from src.crawls.sina_crawl import *
-import akshare as ak
 import pandas as pd
 from tqdm import tqdm
 import numpy as np

@@ -53,9 +53,7 @@ class KHistoryAnalysis(BaseAnalysis):
                                                                {'code':'xzjp', 'name':'验资举牌'}]}])
 class AkShareThsSpecialStocks(BaseAnalysis):
     """最低价格比开盘价高"""
-    def __init__(self, *args, **kwargs):
-        self.how = kwargs.get('how', ['cxg'])
-    async def analysis(self, infos: List[Dict], **kwargs):
+    async def analysis(self, *args, **kwargs):
         """TuShare数据今日收盘价大于等于最高价的股票"""
         from src.engine.engine import Engine
         from src.api.akshare_executor import AkShareExecutor

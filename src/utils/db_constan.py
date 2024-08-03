@@ -1,7 +1,6 @@
 """Mysql 配置"""
 import os
-# HOST="139.159.177.235"
-HOST=os.getenv('MYSQL_HOST', '60.204.132.107')
+HOST=os.getenv('MYSQL_HOST', '0.0.0.0')
 USER=os.getenv("MYSQL_USER", 'root')
 PASSWORD=os.getenv("MYSQL_PASSWORD", "smart-stock")
 DATABASE=os.getenv("MYSQL_DB_NAME","smart_stock")
@@ -184,7 +183,7 @@ DELETE_ORDER_INFO_SQL = """
 
 # ---------------------- mongodb ------------------
 MONGODB_PORT = os.getenv("MONGODB_PORT", 28018)
-MONGODB_IP = os.getenv("MONGODB_IP",'60.204.132.107')
+MONGODB_IP = os.getenv("MONGODB_IP",'0.0.0.0')
 MONGODB_NAME = os.getenv("MONGODB_NAME", 'smart_stock')
 REALTIME_COLLECTION_NAME = 'real_time_table'
 BACKTRADE_RECODE_COLLECTION_NAME = 'backtrader_record_table'

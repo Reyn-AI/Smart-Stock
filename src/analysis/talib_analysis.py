@@ -4,7 +4,10 @@ import math
 from copy import deepcopy
 from src.utils.registy import analysis_register_history
 from src.utils.stock_utils import *
-import talib
+try:
+    import talib
+except Exception:
+    pass
 from src.utils.constant import BAO_STOCK_NAME
 from concurrent.futures import ThreadPoolExecutor
 from .base import BaseAnalysis
