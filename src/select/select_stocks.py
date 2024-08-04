@@ -31,7 +31,7 @@ class ExistZTDataAnalysisSelect(BaseAnalysis):
                                     api_type='qstock')
         if df_list is None or len(df_list)==0:
             return res_codes
-        results = Parallel(n_jobs=20, backend='process')([delayed(cal_exist_zt_in_windows)(df, windows=self.N) for df in df_list])
+        results = Parallel(n_jobs=20, backend='process')([delayed(cal_exist_zt_in_windows)(df, windows=int(self.N)) for df in df_list])
         for r_df in results:
             if r_df.exist_zt[-1]:
                 data = r_df.iloc[-1].to_dict()
