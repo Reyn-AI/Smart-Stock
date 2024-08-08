@@ -39,7 +39,7 @@ class MongoDBUtil:
             return None
         return db[name]
     
-    def insert_real_time_data(self, data:List[Dict],col_name:str=REALTIME_COLLECTION_NAME, id=None):
+    async def insert_real_time_data(self, data:List[Dict],col_name:str=REALTIME_COLLECTION_NAME, id=None):
         """查入每天的实时数据固定id是当日日期"""
         try:
             id = get_time(template='%Y-%m-%d') if id is None else id
@@ -48,15 +48,14 @@ class MongoDBUtil:
             data = {'data':data, '_id':id, 'datetime':datetime}
             res = collection.insert_one(data)
         except Exception as e:
-            # if 'duplicate key' in str(e):
-            #     collection.delete_one({'_id':data['_id']})
-            #     collection.insert_one(data)
-            #     self.logger.warning(f'insert_one exist duplicate key, delete and update!')
-            self.logger.warning(f'insert_one upload Failed!{str(e)}')
+            if 'duplicate key' in str(e):
+                collection.delete_one({'_id':data['_id']})
+                collection.insert_one(data)
+                self.logger.warning(f'insert_one exist duplicate key, delete and update!')
             return False
         return res
     
-    def get_real_time_data(self, col_name=REALTIME_COLLECTION_NAME, id=get_time('%Y-%m-%d'), force_update=False, auto_get=True):
+    async def get_real_time_data(self, col_name=REALTIME_COLLECTION_NAME, id=get_time('%Y-%m-%d'), force_update=False, auto_get=True):
         """获取实时数据"""
         try:
             from src.engine  import ApiExecutor
@@ -64,19 +63,23 @@ class MongoDBUtil:
             if collection is None:
                 return []
             res = collection.find_one({'_id':id})
+            codes = get_all_stock_codes()
+            params = {'ts_code':codes, 'src':'sina'}
             if auto_get and res is None or force_update:
-                codes = get_all_stock_codes()
-                params = {'ts_code':codes, 'src':'sina'}
+
                 res = ApiExecutor(api_type=get_api_type()).execute('real_time_data', params=params)
                 if res is not None:
-                    self.insert_real_time_data(res, id=id)
+                    await self.insert_real_time_data(res, id=id)
             else:
                 if res is not None:
-                    res = res['data']
+                    if len(res['data'])==0:
+                        res = ApiExecutor(api_type=get_api_type()).execute('real_time_data', params=params)
+                        if res is not None:
+                            await self.insert_real_time_data(res, id=id)
+                            return res
+                return res['data']
         except Exception as e:
             self.logger.error(str(e))
-        finally:
-            return res 
         
     def insert_backtrader_record(self, 
                                  data:Dict,

@@ -149,7 +149,7 @@ async def get_market_infos():
         tmp_results = {}
         data_key = []
         for i, date in enumerate(dates):
-            db_res = MongoDBUtil().get_real_time_data(id=date, auto_get=i==0) #当天的数据重新获取
+            db_res = await MongoDBUtil().get_real_time_data(id=date, auto_get=i==0) #当天的数据重新获取
             analysis_res = static_open_data(infos=db_res)
             if len(data_key)==0:
                 data_key = list(analysis_res.keys())
