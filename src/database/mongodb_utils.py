@@ -70,6 +70,7 @@ class MongoDBUtil:
                 res = ApiExecutor(api_type=get_api_type()).execute('real_time_data', params=params)
                 if res is not None:
                     await self.insert_real_time_data(res, id=id)
+                return res
             else:
                 if res is not None:
                     if len(res['data'])==0:
